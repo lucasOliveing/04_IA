@@ -82,8 +82,8 @@ def calcCust(cord):
 
 #estado inicial 2, em que as entradas dos do arquivo são permutadas;
 #retorna um Dic com pontos com cordenadas permutados.
-def initial_2():
-    aux = initial_1()
+def initial_2(fileName = ''):
+    aux = initial_1(fileName)
     keys = list(aux.keys())
     
     keys = sample(keys, len(keys))
@@ -91,29 +91,30 @@ def initial_2():
     cities = {key: aux[key] for key in keys}
     
     #print(cities)
-    calcCust(cities)
+    return cities
 
 #Define a operação 1 da questão, 
 #Dado um Dic com pontos e cordenadas e dois pontos, troca a posição dos dois pontos no Dic.
 def op_1(cities):
     keys = list (cities.keys())
-    i = sample(keys, 2)
+    i = sample(range(len(keys)), 2)
 
     op = {}
     
-    for key in keys:
-        if key != i[0] and key != i[1]:
-            op[key] = cities[key]
-        elif key == i[0]:
-            op[i[1]] = cities[i[1]]
+    for j in range(len(keys)):
+        if j != i[0] and j != i[1]:
+            key = keys[j]
+        elif j == i[0]:
+            key = keys[i[1]]
         else:
-            op[i[0]] = cities[i[0]]
+            key = keys[i[0]]
+        op[key] = cities[key]
     
 
     #print (cities)
     #print(i)
     #print(op)
-    return op
+    return [op,i]
 
     
 
@@ -122,9 +123,6 @@ def op_2(cities):
     i = sample(range(len(keys)), 2)
 
     #i = [0,5]
-    print(i)
-    print(keys)
-    print(keys[i[0]], keys[i[1]])
 
     if i[0] > i[1]:
         slic = keys[i[0]:] + keys[:i[1]+1]
@@ -141,9 +139,7 @@ def op_2(cities):
     else:
         slic = keys[i[0]:i[1]+1]
         k = 0
-        print(slic)
         slic = slic[::-1]
-        print(slic)
 
 
         for j in range(i[0], i[1]+1):
@@ -151,9 +147,8 @@ def op_2(cities):
             k += 1
     
     op = { key: cities[key] for key in keys}
-    print(keys)
-    print(cities)
-    print(op)
+    
+    return [op,i]
 
 
 
@@ -166,7 +161,6 @@ def randomNeighbor_op1(cities, i, n = 30):
  
 
     auxKeys = list (aux.keys())
-    print(auxKeys)
 
     op = {}
     for j in range(n):
@@ -180,17 +174,15 @@ def randomNeighbor_op1(cities, i, n = 30):
         for k in range(len(keys)):
             if k != i[0] and k != i[1]:
                 key = auxKeys[auxi[l]]
-
                
                 aux[key] = cities[key]
-                print(aux)
                 l += 1
             else:
                 aux[keys[k]] = cities[keys[k]]
         
         op[j] = aux.copy()
 
-    print(op)
+    return op
 
 
 def randomNeighbor_op2(cities, i, n=2):
@@ -233,6 +225,15 @@ def randomNeighbor_op2(cities, i, n=2):
 
     return op
 
+def path(cities):
+    pathh = '['
+    for key in cities.keys():
+        pathh +=key + '->'
+
+    pathh += next(iter(cities)) + ']'
+
+
+    return pathh
 
 
 #op_2(initial_1())

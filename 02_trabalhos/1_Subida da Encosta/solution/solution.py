@@ -155,8 +155,9 @@ def main():
     if len(sys.argv) > 2:
         outFile = sys.argv[2]
 
-    defaut = 'cordenadas.txt'
 
+    print("Arquivo lido: ", fileName)
+    print(f"Arquivo de despejo: {outFile}\n" )
     try:
         ini_1 = initial_1(fileName)
         ini_2 = initial_2(fileName)
