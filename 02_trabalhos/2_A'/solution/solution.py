@@ -107,13 +107,10 @@ class AGM(grath):
     def __init__(self, cordenates):
         super().__init__(cordenates)
         self.ordenar()
-        self.agm = self.grafo.copy()
-        self.kruskal()
-        self.grathC()
     
     
-    def kruskal(self):
-        cities = self.agm
+    def kruskal(self, cities):
+
         for adj in cities:
             k = list(cities[adj].keys())[0]
             key = list(cities[k].keys())[0]
@@ -155,7 +152,7 @@ class AGM(grath):
                             cities[city] = {key1: cities[city][key1]}
 
 
-        self.agm = cities
+        return cities
         
     def grathC(self):
         self.grafoC = {}
@@ -167,6 +164,18 @@ class AGM(grath):
                     if i == list(self.agm[j].keys())[0]:
                         self.grafoC[i][j] = self.agm[j][i]
     
+    def agm(self, caminho):
+        agm = {}
+
+        for city in self.grafo:
+            if city not in caminho:
+                agm[city] = {}
+                for adj in self.grafo[city]:
+                    if adj not in caminho:
+                        agm[city][adj] = self.grafo[city][adj]
+
+        return self.kruskal(agm)
+
 
     def agm_adj(self, city):
         return list(self.agm[city].keys())[0]
@@ -307,7 +316,10 @@ def main():
 
     # a_star('I')
     print()
+    # grafo = AGM(readFile())
 
+    # test = grafo.agm(['A','C'])
+    # print(test)
     
 
 main()
